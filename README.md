@@ -56,14 +56,29 @@ sudo apt-get -y install v4l-utils
 
 **2) Edit orangepiEnv.txt**
 
+Go to the /boot/dtb/rockchip/overlay
+
+```
+cd /boot/dtb/rockchip/overlay
+```
+
+And find the file called "rk356x-ov5647-c1.dtbo" or "rk356x-cam1.dtbo".
+
+Open the config file:
+
 ```
 sudo nano /boot/orangepiEnv.txt
 ```
-
-Add the next row:
+Add the next row(if you've found "rk356x-ov5647-c1.dtbo" ):
 
 ```
 overlays=ov5647-c1
+```
+
+OR add the next row(if you've found "rk356x-cam1.dtbo" ):
+
+```
+overlays=cam1
 ```
 
 **3) Poweroff the board and connect the camera to the board. Then poweron the board.**
@@ -211,7 +226,7 @@ v4l2-ctl -d /dev/video0 --set-fmt-video=width=640,height=480,pixelformat=UYVY
 ```
 
 ```
-gst-launch-1.0 v4l2src device=/dev/video0 io-mode=mmap ! video/x-raw,format=UYVY,width=640,height=480,framerate=15/1 ! videoconvert ! autovideosink sync=false
+gst-launch-1.0 v4l2src device=/dev/video0 io-mode=mmap ! video/x-raw,format=UYVY,width=640,height=480,framerate=15/1 ! videoconvert ! video/x-raw,format=RGB ! autovideosink sync=false
 ```
 
 (OPTION 3, ffmpeg)
